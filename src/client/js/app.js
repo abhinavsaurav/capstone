@@ -1,5 +1,5 @@
 /* Global Variables */
-const key = "640d86edfe23e3808211ce8a24c6436f";
+const key = "640d86edfe23e3808211ce8a24c6436f&units=imperial";
 const url_a = "http://api.openweathermap.org/data/2.5/weather?zip=";
 const url_b = "&appid=";
 
@@ -56,7 +56,7 @@ const postData = async (url = "", data = {}) => {
  */
 
 const updateUI = async () => {
-	const request = await fetch("/projData");
+	const request = await fetch("http://localhost:3000/projData");
 	try {
 		const receivedData = await request.json();
 		document.getElementById("temp").innerHTML =
@@ -90,7 +90,9 @@ function executeTask(e) {
 				userResponse: feelings,
 			};
 
-			postData("/addToProjData", jsonData);
+			postData("http://localhost:3000/addToProjData", jsonData);
 		})
 		.then(() => updateUI());
 }
+
+export { executeTask };

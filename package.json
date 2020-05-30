@@ -1,0 +1,49 @@
+{
+	"name": "weather-journal-app",
+	"version": "1.0.0",
+	"description": "#overview This project is an Asyncronous app that uses web API with routes and request using Express.",
+	"main": "server.js",
+	"scripts": {
+		"test": "jest",
+		"start": "node src/server/server.js",
+		"build-prod": "webpack --config webpack.prod.js",
+		"build-dev": "webpack-dev-server --config webpack.prod.js --open"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/abhinavsaurav/weather_app_journal.git"
+	},
+	"author": "Abhinav Saurav",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/abhinavsaurav/weather_app_journal/issues"
+	},
+	"homepage": "https://github.com/abhinavsaurav/weather_app_journal#readme",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"webpack": "^4.43.0",
+		"webpack-cli": "^3.3.11"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.10.2",
+		"@babel/polyfill": "^7.10.1",
+		"@babel/preset-env": "^7.10.2",
+		"babel-loader": "^8.1.0",
+		"clean-webpack-plugin": "^3.0.0",
+		"css-loader": "^3.5.3",
+		"dotenv": "^8.2.0",
+		"html-webpack-plugin": "^4.3.0",
+		"jest": "^26.0.1",
+		"mini-css-extract-plugin": "^0.9.0",
+		"optimize-css-assets-webpack-plugin": "^5.0.3",
+		"path": "^0.12.7",
+		"sass": "^1.26.7",
+		"sass-loader": "^8.0.2",
+		"style-loader": "^1.2.1",
+		"terser-webpack-plugin": "^3.0.2",
+		"webpack-dev-server": "^3.11.0"
+	},
+	"keywords": []
+}
