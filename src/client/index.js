@@ -1,6 +1,5 @@
-import { executeTask } from "./js/app";
+import { executeTask, eventListener1 } from "./js/app";
 import "./styles/style.scss";
-import pic from "./media/icons/a01d.png";
 //document.getElementById("generate").addEventListener("click", executeTask);
 
 // var context = require.context("./media/icons", true, /\.(png)$/);
@@ -21,3 +20,5 @@ function importAll(r) {
 const images = importAll(
 	require.context("./media/icons", false, /\.(png|jpe?g|svg)$/)
 );
+
+eventListener1();

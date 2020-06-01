@@ -49,8 +49,8 @@ function retProjData(req, res) {
  *
  */
 
-app.post("/addToProjData", addToProjectData);
-function addToProjectData(req, res) {
+app.post("/addToProjData", addToGeoData);
+function addToGeoData(req, res) {
 	//check the u_response and also do we need to add it to array?
 	console.log(req.body);
 	projectData = {
@@ -59,4 +59,13 @@ function addToProjectData(req, res) {
 		country: req.body.country,
 	};
 	console.log(`Inisde Adding ProjData ${projectData}`);
+}
+
+let weatherData = {};
+app.post("/addWeatherData", addWeatherData);
+function addWeatherData(req, res) {
+	console.log(req.body);
+	projectData["description"] = req.body.description;
+	projectData["icon"] = req.body.icon;
+	console.log(projectData);
 }

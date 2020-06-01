@@ -5,9 +5,10 @@ const url_a = "http://api.geonames.org/searchJSON?q=";
 const url_b = "&maxRows=1&username=abhinavsaurav";
 const weatherUrlA = "https://api.weatherbit.io/v2.0/forecast/daily?";
 const weatherUrlKey = "fe37d1548cf04ea093ee4708a37fddb2";
+const pixabayKey = "16838225-7a7a834db353d16074c9f4e39";
 let x;
-let geoData = {};
-
+//let geoData = {};
+let days;
 /**
  * @description It fetches JSON data from the web API
  * @param  placename This zip code of the place
@@ -56,18 +57,22 @@ const postData = async (url = "", data = {}) => {
  *
  */
 
-const updateUI = async () => {
+const reqData = async () => {
 	const request = await fetch("http://localhost:3000/projData");
 	try {
 		const receivedData = await request.json();
-		geoData = receivedData;
+		let geoData = receivedData;
 		console.log(geoData);
-		document.getElementById("temp").innerHTML =
-			"Latitude: " + receivedData.latitude;
-		document.getElementById("date").innerHTML =
-			"Longitude: " + receivedData.longitude;
-		document.getElementById("content").innerHTML =
-			"Country: " + receivedData.country;
+		return geoData;
+		// document.getElementById("temp").innerHTML =
+		// 	"Latitude: " + receivedData.latitude;
+		// document.getElementById("date").innerHTML =
+		// 	"Longitude: " + receivedData.longitude;
+		// document.getElementById("content").innerHTML =
+		// 	"Country: " + receivedData.country;
+		// // document.getElementById(
+		// 	"weather"
+		// ).innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
 	} catch (error) {
 		console.log("Exception occured in update UI", error);
 	}
@@ -78,8 +83,9 @@ const updateUI = async () => {
  * @description Event listener for fetching the data values
  *
  */
-
-document.getElementById("generate").addEventListener("click", executeTask);
+function eventListener1() {
+	document.getElementById("generate").addEventListener("click", executeTask);
+}
 
 function executeTask(e) {
 	const placename = document.getElementById("placename").value;
@@ -99,14 +105,14 @@ function executeTask(e) {
 			let journeyDate = new Date(receivedDate);
 			let remainingSeconds = journeyDate.getTime() - today.getTime();
 
-			var days = Math.floor(remainingSeconds / (1000 * 60 * 60 * 24));
-			var hours = Math.floor(
+			days = Math.floor(remainingSeconds / (1000 * 60 * 60 * 24));
+			let hours = Math.floor(
 				(remainingSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
 			);
-			var minutes = Math.floor(
+			let minutes = Math.floor(
 				(remainingSeconds % (1000 * 60 * 60)) / (1000 * 60)
 			);
-			var seconds = Math.floor((remainingSeconds % (1000 * 60)) / 1000);
+			let seconds = Math.floor((remainingSeconds % (1000 * 60)) / 1000);
 			document.getElementById("countdown").innerHTML =
 				days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
@@ -114,6 +120,7 @@ function executeTask(e) {
 			if (remainingSeconds < 0) {
 				clearInterval(x);
 				document.getElementById("countdown").innerHTML = "EXPIRED COUNTDOWN";
+				return;
 			}
 		}, 1000);
 	} else {
@@ -133,10 +140,10 @@ function executeTask(e) {
 
 			postData("http://localhost:3000/addToProjData", jsonData);
 		})
-		.then(() => updateUI())
-		.then(async () => {
-			// https://api.weatherbit.io/v2.0/forecast/daily?lat=51.50853&lon=-0.12574&key=fe37d1548cf04ea093ee4708a37fddb2
+		.then(() => reqData())
+		.then(async (geoData) => {
 			const weatherUrl = `${weatherUrlA}lat=${geoData.latitude}&lon=${geoData.longitude}&key=${weatherUrlKey}`;
+			console.log(weatherUrl);
 			const weatherData = await fetch(weatherUrl);
 			try {
 				const retWeather = await weatherData.json();
@@ -147,10 +154,30 @@ function executeTask(e) {
 			}
 		})
 		.then(async (data1) => {
-			document.getElementById(
-				"weather"
-			).innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
+			console.log(data1);
+			let weatherData = {};
+			try {
+				if (days < 16) {
+					weatherData = {
+						description: data1.data[days].weather.description,
+						icon: `${data1.data[days].weather.icon}.png`,
+					};
+				} else if (days > 16) {
+					weatherData = {
+						description: data1.data[days].weather.description,
+						icon: `${data1.data[days].weather.icon}.png`,
+					};
+				} else {
+					document.getElementById("error").innerHTML = "Invalid Date value";
+					return;
+				}
+				postData("http://localhost:3000/addWeatherData", weatherData);
+			} catch (error) {
+				console.log("error", error);
+			}
+			// document.getElementById("weather").innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
 		});
+	// .then(() => {});
 }
 
-export { executeTask };
+export { executeTask, eventListener1 };
