@@ -69,3 +69,10 @@ function addWeatherData(req, res) {
 	projectData["icon"] = req.body.icon;
 	console.log(projectData);
 }
+
+app.post("/addImageData", addImageData);
+function addImageData(req, res) {
+	console.log(req.body);
+	projectData["imageUrl"] = req.body.imageUrl;
+	console.log(projectData);
+}

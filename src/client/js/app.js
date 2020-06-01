@@ -5,10 +5,13 @@ const url_a = "http://api.geonames.org/searchJSON?q=";
 const url_b = "&maxRows=1&username=abhinavsaurav";
 const weatherUrlA = "https://api.weatherbit.io/v2.0/forecast/daily?";
 const weatherUrlKey = "fe37d1548cf04ea093ee4708a37fddb2";
-const pixabayKey = "16838225-7a7a834db353d16074c9f4e39";
+let pixabayUrlPlusKey =
+	"https://pixabay.com/api/?key=16838225-7a7a834db353d16074c9f4e39";
 let x;
 //let geoData = {};
 let days;
+let country = "";
+
 /**
  * @description It fetches JSON data from the web API
  * @param  placename This zip code of the place
@@ -137,7 +140,7 @@ function executeTask(e) {
 				latitude: data.geonames[0].lat,
 				country: data.geonames[0].countryName,
 			};
-
+			country = jsonData.country;
 			postData("http://localhost:3000/addToProjData", jsonData);
 		})
 		.then(() => reqData())
@@ -164,8 +167,8 @@ function executeTask(e) {
 					};
 				} else if (days > 16) {
 					weatherData = {
-						description: data1.data[days].weather.description,
-						icon: `${data1.data[days].weather.icon}.png`,
+						description: data1.data[15].weather.description,
+						icon: `${data1.data[15].weather.icon}.png`,
 					};
 				} else {
 					document.getElementById("error").innerHTML = "Invalid Date value";
@@ -176,8 +179,50 @@ function executeTask(e) {
 				console.log("error", error);
 			}
 			// document.getElementById("weather").innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
+		})
+		.then(async () => {
+			pixabayUrlPlusKey = `${pixabayUrlPlusKey}&q=${placename}&category=travel&page=1&per_page=5`;
+			let imageData = await fetch(pixabayUrlPlusKey);
+			try {
+				let retImageData = await imageData.json();
+				console.log(retImageData);
+				if (retImageData.totalHits == 0) {
+					imageData = await fetch(
+						`${pixabayUrlPlusKey}&q=${country}%20map&page=1&per_page=5`
+					);
+					try {
+						retImageData = await imageData.json();
+						console.log("In nested try");
+						console.log(retImageData);
+					} catch (error2) {
+						console.log("error2", error2);
+					}
+				}
+				console.log(retImageData);
+				return retImageData;
+			} catch (error) {
+				console.log("error");
+			}
+		})
+		.then(async (imageData) => {
+			console.log(imageData);
+			let imageData1 = {};
+			if (imageData.totalHits != 0) {
+				imageData1 = {
+					imageUrl: imageData.hits[0].largeImageURL,
+				};
+			} else {
+				imageData1 = {
+					imageUrl:
+						"https://pixabay.com/get/57e1d5424f4fad0bffd8992cc62e3f7d1d3ddce04e507440742f78dc9f48c0_1280.jpg",
+				};
+			}
+			postData("http://localhost:3000/addImageData", imageData1);
+			console.log(imageData.hits[0].largeImageURL);
+			document.getElementById(
+				"apiDataImage"
+			).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
 		});
-	// .then(() => {});
 }
 
 export { executeTask, eventListener1 };
