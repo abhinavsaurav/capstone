@@ -18,11 +18,15 @@
 
 				<div class="zip extra">
 					<div class="holder zip">
-						<label for="zip">Enter Zipcode here</label>
+						<label for="placename">Enter City here</label>
+						<input type="text" id="placename" placeholder="Enter City name" />
+					</div>
+					<div class="holder zip">
+						<label for="travelDate">Enter Date</label>
 						<input
-							type="text"
-							id="zip"
-							placeholder="enter zip code here (US only)"
+							type="date"
+							id="travelDate"
+							placeholder="Enter date of travel"
 						/>
 					</div>
 					<br />
@@ -46,9 +50,13 @@
 				<div class="title">Most Recent Entry</div>
 
 				<div id="entryHolder">
+					<div id="error"></div>
 					<div id="date"></div>
 					<div id="temp"></div>
 					<div id="content"></div>
+					<div id="countdown"></div>
+					<div id="weather"></div>
+					<img src="./images/a01d.png" />
 				</div>
 			</div>
 		</div>

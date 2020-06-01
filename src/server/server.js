@@ -54,9 +54,9 @@ function addToProjectData(req, res) {
 	//check the u_response and also do we need to add it to array?
 	console.log(req.body);
 	projectData = {
-		temperature: req.body.temperature,
-		date: req.body.date,
-		userResponse: req.body.userResponse,
+		longitude: req.body.longitude,
+		latitude: req.body.latitude,
+		country: req.body.country,
 	};
 	console.log(`Inisde Adding ProjData ${projectData}`);
 }

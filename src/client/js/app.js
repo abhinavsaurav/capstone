@@ -1,26 +1,27 @@
 /* Global Variables */
-const key = "640d86edfe23e3808211ce8a24c6436f&units=imperial";
-const url_a = "http://api.openweathermap.org/data/2.5/weather?zip=";
-const url_b = "&appid=";
+// const key = "640d86edfe23e3808211ce8a24c6436f&units=imperial";
 
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+const url_a = "http://api.geonames.org/searchJSON?q=";
+const url_b = "&maxRows=1&username=abhinavsaurav";
+const weatherUrlA = "https://api.weatherbit.io/v2.0/forecast/daily?";
+const weatherUrlKey = "fe37d1548cf04ea093ee4708a37fddb2";
+let x;
+let geoData = {};
 
 /**
  * @description It fetches JSON data from the web API
- * @param  zipp This zip code of the place
+ * @param  placename This zip code of the place
  * @returns weather data in JSON format
  *
  */
 
-const getWeather = async (zipp) => {
-	const weatherUrl = url_a + zipp + url_b + key;
-	const weatherData = await fetch(weatherUrl);
+const getPlaceData = async (placename) => {
+	const placeUrl = url_a + placename + url_b;
+	const placeData = await fetch(placeUrl);
 	try {
-		const retWeather = await weatherData.json();
-		console.log(retWeather);
-		return retWeather;
+		const retPlace = await placeData.json();
+		console.log(retPlace);
+		return retPlace;
 	} catch (error) {
 		console.log("Error", error);
 	}
@@ -59,12 +60,14 @@ const updateUI = async () => {
 	const request = await fetch("http://localhost:3000/projData");
 	try {
 		const receivedData = await request.json();
+		geoData = receivedData;
+		console.log(geoData);
 		document.getElementById("temp").innerHTML =
-			"The temperature in the area: " + receivedData.temperature;
+			"Latitude: " + receivedData.latitude;
 		document.getElementById("date").innerHTML =
-			"Today's date: " + receivedData.date;
+			"Longitude: " + receivedData.longitude;
 		document.getElementById("content").innerHTML =
-			"Users response: " + receivedData.userResponse;
+			"Country: " + receivedData.country;
 	} catch (error) {
 		console.log("Exception occured in update UI", error);
 	}
@@ -79,20 +82,75 @@ const updateUI = async () => {
 document.getElementById("generate").addEventListener("click", executeTask);
 
 function executeTask(e) {
-	const zip = document.getElementById("zip").value;
+	const placename = document.getElementById("placename").value;
 	const feelings = document.getElementById("feelings").value;
-	getWeather(zip)
+	const receivedDate = document.getElementById("travelDate").value;
+
+	if (receivedDate) {
+		/**
+		 *
+		 * @description arrow function for countdown
+		 *
+		 */
+
+		clearInterval(x);
+		x = setInterval(() => {
+			let today = new Date();
+			let journeyDate = new Date(receivedDate);
+			let remainingSeconds = journeyDate.getTime() - today.getTime();
+
+			var days = Math.floor(remainingSeconds / (1000 * 60 * 60 * 24));
+			var hours = Math.floor(
+				(remainingSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+			);
+			var minutes = Math.floor(
+				(remainingSeconds % (1000 * 60 * 60)) / (1000 * 60)
+			);
+			var seconds = Math.floor((remainingSeconds % (1000 * 60)) / 1000);
+			document.getElementById("countdown").innerHTML =
+				days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+			// If the count down is over, write some text
+			if (remainingSeconds < 0) {
+				clearInterval(x);
+				document.getElementById("countdown").innerHTML = "EXPIRED COUNTDOWN";
+			}
+		}, 1000);
+	} else {
+		document.getElementById("error").innerHTML =
+			"Something is Missing! check values";
+		return;
+	}
+
+	getPlaceData(placename)
 		.then(async (data) => {
-			console.log(data.main.temp);
+			console.log(data.geonames[0].lng);
 			let jsonData = {
-				temperature: data.main.temp,
-				date: newDate,
-				userResponse: feelings,
+				longitude: data.geonames[0].lng,
+				latitude: data.geonames[0].lat,
+				country: data.geonames[0].countryName,
 			};
 
 			postData("http://localhost:3000/addToProjData", jsonData);
 		})
-		.then(() => updateUI());
+		.then(() => updateUI())
+		.then(async () => {
+			// https://api.weatherbit.io/v2.0/forecast/daily?lat=51.50853&lon=-0.12574&key=fe37d1548cf04ea093ee4708a37fddb2
+			const weatherUrl = `${weatherUrlA}lat=${geoData.latitude}&lon=${geoData.longitude}&key=${weatherUrlKey}`;
+			const weatherData = await fetch(weatherUrl);
+			try {
+				const retWeather = await weatherData.json();
+				console.log(retWeather);
+				return retWeather;
+			} catch (error) {
+				console.log("Error", error);
+			}
+		})
+		.then(async (data1) => {
+			document.getElementById(
+				"weather"
+			).innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
+		});
 }
 
 export { executeTask };
