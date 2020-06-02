@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title>Weather Journal</title>
+		<meta name="viewport" content="width=device-width intial-scale=1.0" />
+		<title>Traweller</title>
 		<link
 			href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap"
 			rel="stylesheet"
@@ -10,57 +11,91 @@
 		<link rel="stylesheet" href="styles/style.css" />
 	</head>
 	<body>
-		<div id="app">
-			<center>
-				<div class="holder headline">
-					<h1>Weather Journal App</h1>
+		<head>
+			<div class="container box">
+				<div class="head">
+					<h1>Traweller</h1>
 				</div>
-
-				<div class="zip extra">
-					<div class="holder zip">
-						<label for="placename">Enter City here</label>
+				<div class="search-box box">
+					<section class="section1 box">
+						<label for="placename"> City: </label>
 						<input type="text" id="placename" placeholder="Enter City name" />
-					</div>
-					<div class="holder zip">
-						<label for="travelDate">Enter Date</label>
+					</section>
+					<section class="section2 box">
+						<label for="travelDate">Travel Date</label>
 						<input
 							type="date"
 							id="travelDate"
 							placeholder="Enter date of travel"
 						/>
-					</div>
-					<br />
-					<div class="holder zip">
-						<label for="feelings">How are you feeling today?</label>
-						<textarea
-							class="myInput"
-							id="feelings"
-							placeholder="Enter your feelings here"
-							rows="3"
-							cols="50"
-						></textarea>
-					</div>
-					<br />
-					<div class="mybtn">
-						<button id="generate" type="submit">Generate</button>
-					</div>
+					</section>
+					<section class="section3 box">
+						<label for="travelDate">Return Date</label>
+						<input
+							type="date"
+							id="returnDate"
+							placeholder="Enter date of travel"
+						/>
+					</section>
 				</div>
-			</center>
+				<div class="flex-search box">
+					<button id="generate" type="submit">Search</button>
+				</div>
+			</div>
+		</head>
+		<main>
+			<section></section>
+			<section></section>
+		</main>
+		<footer>
+			<p><strong>&copy; Abhinav Saurav</strong></p>
+		</footer>
+		<!-- <div id="app">
+			<div class="zip extra">
+				<div class="holder zip">
+					<label for="placename">Enter City here</label>
+					<input type="text" id="placename" placeholder="Enter City name" />
+				</div>
+				<div class="holder zip">
+					<label for="travelDate">Enter Date</label>
+					<input
+						type="date"
+						id="travelDate"
+						placeholder="Enter date of travel"
+					/>
+				</div>
+				<br />
+				<div class="holder zip">
+					<label for="feelings">How are you feeling today?</label>
+					<textarea
+						class="myInput"
+						id="feelings"
+						placeholder="Enter your feelings here"
+						rows="3"
+						cols="50"
+					></textarea>
+				</div>
+				<br />
+				<div class="mybtn">
+					<button id="generate" type="submit">Generate</button>
+				</div>
+			</div>
+
 			<div class="holder entry">
 				<div class="title">Most Recent Entry</div>
 
-				<div id="entryHolder">
-					<div id="error"></div>
+				<div id="entryHolder"> -->
+		<!-- <div id="error"></div>
 					<div id="date"></div>
 					<div id="temp"></div>
 					<div id="content"></div>
 					<div id="countdown"></div>
 					<div id="weather"></div>
-					<div id="apiDataImage"></div>
-					<!-- <img src="./images/a01d.png" /> -->
-				</div>
+					<div id="apiDataImage"></div> -->
+		<!-- <img src="./images/a01d.png" /> -->
+		<!-- </div>
 			</div>
-		</div>
+		</div> -->
 
 		<!-- <script src="app.js" type="text/javascript"></script> -->
 	</body>
