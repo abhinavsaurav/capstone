@@ -56,7 +56,7 @@ const postData = async (url = "", data = {}) => {
 };
 
 /**
- * @description This function updates the UI dynamically
+ * @description This function fetches the reqested data
  *
  */
 
@@ -77,7 +77,7 @@ const reqData = async () => {
 		// 	"weather"
 		// ).innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
 	} catch (error) {
-		console.log("Exception occured in update UI", error);
+		console.log("Exception occured in reqData", error);
 	}
 };
 
@@ -92,7 +92,7 @@ function eventListener1() {
 
 function executeTask(e) {
 	const placename = document.getElementById("placename").value;
-	const feelings = document.getElementById("feelings").value;
+	// const feelings = document.getElementById("feelings").value;
 	const receivedDate = document.getElementById("travelDate").value;
 
 	if (receivedDate) {
@@ -218,11 +218,41 @@ function executeTask(e) {
 				};
 			}
 			postData("http://localhost:3000/addImageData", imageData1);
-			console.log(imageData.hits[0].largeImageURL);
-			document.getElementById(
-				"apiDataImage"
-			).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
-		});
+			// console.log(imageData.hits[0].largeImageURL);
+			// document.getElementById(
+			// 	"apiDataImage"
+			// ).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
+		})
+		.then(() => updateUI());
 }
+
+const updateUI = async () => {
+	const request = await fetch("http://localhost:3000/projData");
+	try {
+		const receivedData = await request.json();
+		console.log(receivedData);
+		document.getElementById("latitude").innerHTML =
+			"Latitude: " + receivedData.latitude;
+		document.getElementById("date").innerHTML =
+			"Longitude: " + receivedData.longitude;
+		document.getElementById("country").innerHTML =
+			"Country: " + receivedData.country;
+		document.getElementById(
+			"weather-descr"
+		).innerHTML = `Description ${receivedData.description}`;
+		document.getElementById(
+			"weather-icon"
+		).innerHTML = `<img src="./images/${receivedData.icon}">`;
+
+		document.getElementById(
+			"apiDataImage"
+		).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
+
+		// var elmnt = document.getElementById("generated-data");
+		// elmnt.scrollIntoView();
+	} catch (error) {
+		console.log("Exception occured in Update UI", error);
+	}
+};
 
 export { executeTask, eventListener1 };

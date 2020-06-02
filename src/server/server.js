@@ -39,6 +39,7 @@ app.get("/projData", retProjData);
  */
 
 function retProjData(req, res) {
+	console.log("returning proj data");
 	console.log(projectData);
 	res.send(projectData);
 }
