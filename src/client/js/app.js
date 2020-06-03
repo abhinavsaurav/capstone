@@ -67,15 +67,6 @@ const reqData = async () => {
 		let geoData = receivedData;
 		console.log(geoData);
 		return geoData;
-		// document.getElementById("temp").innerHTML =
-		// 	"Latitude: " + receivedData.latitude;
-		// document.getElementById("date").innerHTML =
-		// 	"Longitude: " + receivedData.longitude;
-		// document.getElementById("content").innerHTML =
-		// 	"Country: " + receivedData.country;
-		// // document.getElementById(
-		// 	"weather"
-		// ).innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
 	} catch (error) {
 		console.log("Exception occured in reqData", error);
 	}
@@ -94,6 +85,14 @@ function executeTask(e) {
 	const placename = document.getElementById("placename").value;
 	// const feelings = document.getElementById("feelings").value;
 	const receivedDate = document.getElementById("travelDate").value;
+	document.getElementById("error").innerHTML = "";
+	document.getElementById("latitude").innerHTML = "";
+	document.getElementById("date").innerHTML = "";
+	document.getElementById("country").innerHTML = "";
+	document.getElementById("weather-descr").innerHTML = "";
+	document.getElementById("weather-icon").innerHTML = "";
+
+	document.getElementById("apiDataImage").innerHTML = ``;
 
 	if (receivedDate) {
 		/**
@@ -140,10 +139,19 @@ function executeTask(e) {
 				latitude: data.geonames[0].lat,
 				country: data.geonames[0].countryName,
 			};
-			country = jsonData.country;
-			postData("http://localhost:3000/addToProjData", jsonData);
+			country = data.geonames[0].countryName;
+			console.log(country);
+			await postData("http://localhost:3000/addToProjData", jsonData);
+			document.getElementById("latitude").innerHTML =
+				"Latitude: " + jsonData.latitude;
+			document.getElementById("date").innerHTML =
+				"Longitude: " + jsonData.longitude;
+			document.getElementById("country").innerHTML =
+				"Country: " + jsonData.country;
 		})
-		.then(() => reqData())
+		.then(() => {
+			return reqData();
+		})
 		.then(async (geoData) => {
 			const weatherUrl = `${weatherUrlA}lat=${geoData.latitude}&lon=${geoData.longitude}&key=${weatherUrlKey}`;
 			console.log(weatherUrl);
@@ -162,11 +170,13 @@ function executeTask(e) {
 			try {
 				if (days < 16) {
 					weatherData = {
+						temperature: data1.data[days].temp,
 						description: data1.data[days].weather.description,
 						icon: `${data1.data[days].weather.icon}.png`,
 					};
 				} else if (days > 16) {
 					weatherData = {
+						temperature: data1.data[15].temp,
 						description: data1.data[15].weather.description,
 						icon: `${data1.data[15].weather.icon}.png`,
 					};
@@ -174,15 +184,24 @@ function executeTask(e) {
 					document.getElementById("error").innerHTML = "Invalid Date value";
 					return;
 				}
-				postData("http://localhost:3000/addWeatherData", weatherData);
+				document.getElementById(
+					"temperature"
+				).innerHTML = `${weatherData.temperature} &#8451;`;
+				document.getElementById(
+					"weather-descr"
+				).innerHTML = `Description ${weatherData.description}`;
+				document.getElementById(
+					"weather-icon"
+				).innerHTML = `<img src="./images/${weatherData.icon}">`;
+
+				await postData("http://localhost:3000/addWeatherData", weatherData);
 			} catch (error) {
 				console.log("error", error);
 			}
-			// document.getElementById("weather").innerHTML = `${data1.data[0].weather.description} <img src="./images/${data1.data[0].weather.icon}.png">`;
 		})
 		.then(async () => {
-			pixabayUrlPlusKey = `${pixabayUrlPlusKey}&q=${placename}&category=travel&page=1&per_page=5`;
-			let imageData = await fetch(pixabayUrlPlusKey);
+			let urlPixabay = `${pixabayUrlPlusKey}&q=${placename}&category=travel&page=1&per_page=5`;
+			let imageData = await fetch(urlPixabay);
 			try {
 				let retImageData = await imageData.json();
 				console.log(retImageData);
@@ -217,11 +236,11 @@ function executeTask(e) {
 						"https://pixabay.com/get/57e1d5424f4fad0bffd8992cc62e3f7d1d3ddce04e507440742f78dc9f48c0_1280.jpg",
 				};
 			}
-			postData("http://localhost:3000/addImageData", imageData1);
-			// console.log(imageData.hits[0].largeImageURL);
-			// document.getElementById(
-			// 	"apiDataImage"
-			// ).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
+			document.getElementById(
+				"apiDataImage"
+			).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
+
+			await postData("http://localhost:3000/addImageData", imageData1);
 		})
 		.then(() => updateUI());
 }
@@ -231,25 +250,33 @@ const updateUI = async () => {
 	try {
 		const receivedData = await request.json();
 		console.log(receivedData);
-		document.getElementById("latitude").innerHTML =
-			"Latitude: " + receivedData.latitude;
-		document.getElementById("date").innerHTML =
-			"Longitude: " + receivedData.longitude;
-		document.getElementById("country").innerHTML =
-			"Country: " + receivedData.country;
-		document.getElementById(
-			"weather-descr"
-		).innerHTML = `Description ${receivedData.description}`;
-		document.getElementById(
-			"weather-icon"
-		).innerHTML = `<img src="./images/${receivedData.icon}">`;
+		// document.getElementById(
+		// 	"temperature"
+		// ).innerHTML = `${weatherData.temperature} &#8451;`;
+		// document.getElementById("latitude").innerHTML =
+		// 	"Latitude: " + receivedData.latitude;
+		// document.getElementById("date").innerHTML =
+		// 	"Longitude: " + receivedData.longitude;
+		// document.getElementById("country").innerHTML =
+		// 	"Country: " + receivedData.country;
+		// document.getElementById(
+		// 	"weather-descr"
+		// ).innerHTML = `Description ${receivedData.description}`;
+		// document.getElementById(
+		// 	"weather-icon"
+		// ).innerHTML = `<img src="./images/${receivedData.icon}">`;
 
-		document.getElementById(
-			"apiDataImage"
-		).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
+		// document.getElementById(
+		// 	"apiDataImage"
+		// ).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
 
-		// var elmnt = document.getElementById("generated-data");
-		// elmnt.scrollIntoView();
+		// document.getElementById(
+		// 	"error"
+		// ).innerHTML = `<img src="https://pixabay.com/get/53e6dc434351b108f5d08460962931761637dce7564c704c7c2e7ad69e4dc25b_1280.jpg" alt="no image">`;
+		const sect = document.getElementById("results");
+		sect.scrollIntoView({
+			behavior: "smooth",
+		});
 	} catch (error) {
 		console.log("Exception occured in Update UI", error);
 	}
