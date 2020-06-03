@@ -1,5 +1,5 @@
 {
-	"name": "weather-journal-app",
+	"name": "travel-app-fend",
 	"version": "1.0.0",
 	"description": "#overview This project is an Asyncronous app that uses web API with routes and request using Express.",
 	"main": "server.js",
@@ -11,14 +11,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/abhinavsaurav/weather_app_journal.git"
+		"url": "git+https://github.com/abhinavsaurav/travel_app_fend.git"
 	},
 	"author": "Abhinav Saurav",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/abhinavsaurav/weather_app_journal/issues"
+		"url": "https://github.com/abhinavsaurav/travel_app_fend/issues"
 	},
-	"homepage": "https://github.com/abhinavsaurav/weather_app_journal#readme",
+	"homepage": "https://github.com/abhinavsaurav/travel_app_fend#readme",
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"cors": "^2.8.5",

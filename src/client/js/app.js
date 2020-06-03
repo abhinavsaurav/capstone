@@ -11,6 +11,7 @@ let x;
 //let geoData = {};
 let days;
 let country = "";
+let duration = -1;
 
 /**
  * @description It fetches JSON data from the web API
@@ -85,6 +86,17 @@ function executeTask(e) {
 	const placename = document.getElementById("placename").value;
 	// const feelings = document.getElementById("feelings").value;
 	const receivedDate = document.getElementById("travelDate").value;
+	const returnDate = document.getElementById("returnDate").value;
+	let date1 = new Date(receivedDate);
+	let date2 = new Date(returnDate);
+
+	// To calculate the time difference of two dates
+	let Difference_In_Time = date2.getTime() - date1.getTime();
+
+	// To calculate the no. of days between two dates
+	let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+	duration = Difference_In_Days;
+
 	document.getElementById("error").innerHTML = "";
 	document.getElementById("latitude").innerHTML = "";
 	document.getElementById("date").innerHTML = "";
@@ -94,7 +106,7 @@ function executeTask(e) {
 
 	document.getElementById("apiDataImage").innerHTML = ``;
 
-	if (receivedDate) {
+	if (receivedDate && Difference_In_Days > 0) {
 		/**
 		 *
 		 * @description arrow function for countdown
@@ -142,12 +154,12 @@ function executeTask(e) {
 			country = data.geonames[0].countryName;
 			console.log(country);
 			await postData("http://localhost:3000/addToProjData", jsonData);
-			document.getElementById("latitude").innerHTML =
-				"Latitude: " + jsonData.latitude;
-			document.getElementById("date").innerHTML =
-				"Longitude: " + jsonData.longitude;
-			document.getElementById("country").innerHTML =
-				"Country: " + jsonData.country;
+			// document.getElementById("latitude").innerHTML =
+			// 	"Latitude: " + jsonData.latitude;
+			// document.getElementById("date").innerHTML =
+			// 	"Longitude: " + jsonData.longitude;
+			// document.getElementById("country").innerHTML =
+			// 	"Country: " + jsonData.country;
 		})
 		.then(() => {
 			return reqData();
@@ -184,15 +196,15 @@ function executeTask(e) {
 					document.getElementById("error").innerHTML = "Invalid Date value";
 					return;
 				}
-				document.getElementById(
-					"temperature"
-				).innerHTML = `${weatherData.temperature} &#8451;`;
-				document.getElementById(
-					"weather-descr"
-				).innerHTML = `Description ${weatherData.description}`;
-				document.getElementById(
-					"weather-icon"
-				).innerHTML = `<img src="./images/${weatherData.icon}">`;
+				// document.getElementById(
+				// 	"temperature"
+				// ).innerHTML = `${weatherData.temperature} &#8451;`;
+				// document.getElementById(
+				// 	"weather-descr"
+				// ).innerHTML = `Description ${weatherData.description}`;
+				// document.getElementById(
+				// 	"weather-icon"
+				// ).innerHTML = `<img src="./images/${weatherData.icon}">`;
 
 				await postData("http://localhost:3000/addWeatherData", weatherData);
 			} catch (error) {
@@ -236,9 +248,9 @@ function executeTask(e) {
 						"https://pixabay.com/get/57e1d5424f4fad0bffd8992cc62e3f7d1d3ddce04e507440742f78dc9f48c0_1280.jpg",
 				};
 			}
-			document.getElementById(
-				"apiDataImage"
-			).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
+			// document.getElementById(
+			// 	"apiDataImage"
+			// ).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
 
 			await postData("http://localhost:3000/addImageData", imageData1);
 		})
@@ -250,25 +262,27 @@ const updateUI = async () => {
 	try {
 		const receivedData = await request.json();
 		console.log(receivedData);
-		// document.getElementById(
-		// 	"temperature"
-		// ).innerHTML = `${weatherData.temperature} &#8451;`;
-		// document.getElementById("latitude").innerHTML =
-		// 	"Latitude: " + receivedData.latitude;
-		// document.getElementById("date").innerHTML =
-		// 	"Longitude: " + receivedData.longitude;
-		// document.getElementById("country").innerHTML =
-		// 	"Country: " + receivedData.country;
-		// document.getElementById(
-		// 	"weather-descr"
-		// ).innerHTML = `Description ${receivedData.description}`;
-		// document.getElementById(
-		// 	"weather-icon"
-		// ).innerHTML = `<img src="./images/${receivedData.icon}">`;
+		document.getElementById(
+			"temperature"
+		).innerHTML = `${receivedData.temperature} &#8451;`;
+		document.getElementById(
+			"weather-descr"
+		).innerHTML = `${receivedData.description}`;
+		document.getElementById(
+			"weather-icon"
+		).innerHTML = `<img src="./images/${receivedData.icon}">`;
+		document.getElementById("duration").innerHTML =
+			"duration: " + duration + " days";
+		document.getElementById("latitude").innerHTML =
+			"Latitude: " + receivedData.latitude;
+		document.getElementById("date").innerHTML =
+			"Longitude: " + receivedData.longitude;
+		document.getElementById("country").innerHTML =
+			"Country: " + receivedData.country;
 
-		// document.getElementById(
-		// 	"apiDataImage"
-		// ).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
+		document.getElementById(
+			"apiDataImage"
+		).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
 
 		// document.getElementById(
 		// 	"error"
