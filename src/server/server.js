@@ -60,7 +60,7 @@ function addToGeoData(req, res) {
 		country: req.body.country,
 	};
 	console.log(`Inisde Adding ProjData ${projectData}`);
-	res.send("Test");
+	res.send({ test: "test" });
 }
 
 let weatherData = {};
@@ -71,7 +71,7 @@ function addWeatherData(req, res) {
 	projectData["description"] = req.body.description;
 	projectData["icon"] = req.body.icon;
 	console.log(projectData);
-	res.send("Test");
+	res.send({ test: "test" });
 }
 
 app.post("/addImageData", addImageData);
@@ -79,5 +79,5 @@ function addImageData(req, res) {
 	console.log(req.body);
 	projectData["imageUrl"] = req.body.imageUrl;
 	console.log(projectData);
-	res.send("Test");
+	res.send({ test: "test" });
 }
