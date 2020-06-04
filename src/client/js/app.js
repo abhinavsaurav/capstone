@@ -144,7 +144,7 @@ function executeTask(e) {
 		}, 1000);
 	} else {
 		document.getElementById("error").innerHTML =
-			"Something is Missing! check values";
+			"Something is not right! check values";
 		return;
 	}
 
@@ -160,7 +160,7 @@ function executeTask(e) {
 				console.log(country);
 				await postData("http://localhost:3000/addToProjData", jsonData);
 			} catch (error) {
-				console.log("Results are a miss! Ignore the exception below");
+				console.log("Results are a miss!");
 			}
 		})
 		.then(() => {
