@@ -1,5 +1,4 @@
 /* Global Variables */
-// const key = "640d86edfe23e3808211ce8a24c6436f&units=imperial";
 
 const url_a = "http://api.geonames.org/searchJSON?q=";
 const url_b = "&maxRows=1&username=abhinavsaurav";
@@ -37,6 +36,7 @@ const getPlaceData = async (placename) => {
  * @param  data the JSON data
  *
  */
+
 const postData = async (url = "", data = {}) => {
 	const response = await fetch(url, {
 		method: "POST",
@@ -77,13 +77,19 @@ const reqData = async () => {
  * @description Event listener for fetching the data values
  *
  */
+
 function eventListener1() {
 	document.getElementById("generate").addEventListener("click", executeTask);
 }
 
+/**
+ *
+ * @description Function triggerred on clicking on submit button
+ *
+ */
+
 function executeTask(e) {
 	const placename = document.getElementById("placename").value;
-	// const feelings = document.getElementById("feelings").value;
 	const receivedDate = document.getElementById("travelDate").value;
 	const returnDate = document.getElementById("returnDate").value;
 	let date1 = new Date(receivedDate);
@@ -95,6 +101,7 @@ function executeTask(e) {
 	// To calculate the no. of days between two dates
 	let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 	duration = Difference_In_Days;
+
 	document.getElementById("results").style.display = "none";
 	document.getElementById("error").innerHTML = "";
 	document.getElementById("latitude").innerHTML = "";
@@ -102,7 +109,6 @@ function executeTask(e) {
 	document.getElementById("country").innerHTML = "";
 	document.getElementById("weather-descr").innerHTML = "";
 	document.getElementById("weather-icon").innerHTML = "";
-
 	document.getElementById("apiDataImage").innerHTML = ``;
 
 	if (receivedDate && Difference_In_Days > 0) {
@@ -145,7 +151,6 @@ function executeTask(e) {
 	getPlaceData(placename)
 		.then(async (data) => {
 			try {
-				//console.log(data.geonames[0].lng);
 				let jsonData = {
 					longitude: data.geonames[0].lng,
 					latitude: data.geonames[0].lat,
@@ -161,6 +166,11 @@ function executeTask(e) {
 		.then(() => {
 			return reqData();
 		})
+
+		/**
+		 * @description arrow function which uses the data fetched from geoApi to make a call to weatherbit Api
+		 */
+
 		.then(async (geoData) => {
 			const weatherUrl = `${weatherUrlA}lat=${geoData.latitude}&lon=${geoData.longitude}&key=${weatherUrlKey}`;
 			console.log(weatherUrl);
@@ -173,6 +183,12 @@ function executeTask(e) {
 				console.log("Error", error);
 			}
 		})
+
+		/**
+		 * @description arrow function to store the result fetched to the server endpoint
+		 *
+		 */
+
 		.then(async (data1) => {
 			console.log(data1);
 			let weatherData = {};
@@ -193,21 +209,17 @@ function executeTask(e) {
 					document.getElementById("error").innerHTML = "Invalid Date value";
 					return;
 				}
-				// document.getElementById(
-				// 	"temperature"
-				// ).innerHTML = `${weatherData.temperature} &#8451;`;
-				// document.getElementById(
-				// 	"weather-descr"
-				// ).innerHTML = `Description ${weatherData.description}`;
-				// document.getElementById(
-				// 	"weather-icon"
-				// ).innerHTML = `<img src="./images/${weatherData.icon}">`;
-
 				await postData("http://localhost:3000/addWeatherData", weatherData);
 			} catch (error) {
 				console.log("error", error);
 			}
 		})
+
+		/**
+		 * @description arrow function to call the pixabayApi
+		 *
+		 */
+
 		.then(async () => {
 			let urlPixabay = `${pixabayUrlPlusKey}&q=${placename}&category=travel&page=1&per_page=5`;
 			let imageData = await fetch(urlPixabay);
@@ -232,6 +244,12 @@ function executeTask(e) {
 				console.log("error");
 			}
 		})
+
+		/**
+		 * @description arrow function to store the result fetched to the server endpoint
+		 *
+		 */
+
 		.then(async (imageData) => {
 			console.log(imageData);
 			let imageData1 = {};
@@ -245,14 +263,15 @@ function executeTask(e) {
 						"https://pixabay.com/get/57e1d5424f4fad0bffd8992cc62e3f7d1d3ddce04e507440742f78dc9f48c0_1280.jpg",
 				};
 			}
-			// document.getElementById(
-			// 	"apiDataImage"
-			// ).innerHTML = `<img src="${imageData1.imageUrl} alt="Data not found" width="200px" height="200px">`;
-
 			await postData("http://localhost:3000/addImageData", imageData1);
 		})
 		.then(() => updateUI());
 }
+
+/**
+ * @description updateUI function for updating the UI of the page after result fetch
+ *
+ */
 
 const updateUI = async () => {
 	const request = await fetch("http://localhost:3000/projData");
@@ -279,7 +298,7 @@ const updateUI = async () => {
 
 		document.getElementById(
 			"apiDataImage"
-		).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
+		).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found">`;
 
 		document.getElementById("results").style.display = "flex";
 		const sect = document.getElementById("results");

@@ -67,6 +67,11 @@ function addToGeoData(req, res) {
 	res.send({ test: "test" });
 }
 
+/**
+ * @description Server route for adding weather data
+ *
+ */
+
 let weatherData = {};
 app.post("/addWeatherData", addWeatherData);
 function addWeatherData(req, res) {
@@ -77,6 +82,11 @@ function addWeatherData(req, res) {
 	console.log(projectData);
 	res.send({ test: "test" });
 }
+
+/**
+ * @description Server route for adding Image data
+ *
+ */
 
 app.post("/addImageData", addImageData);
 function addImageData(req, res) {

@@ -9,7 +9,6 @@
 		"hd1"
 		"hd2"
 		"hd3";
-	// background-image: url("../media/background.jpg");
 	color: white;
 	background-color: #000000;
 	background-image: linear-gradient(
@@ -20,13 +19,12 @@
 	);
 }
 
-.box {
-	// border: 1px solid red;
-}
+// .box {
+// 	border: 1px solid red;
+// }
 
 body {
 	background: #fffff8;
-	// font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -40,7 +38,6 @@ body {
 	margin: 10px 0 10px 0;
 
 	section {
-		// width: 33%;
 		padding: 2px 0 0 0;
 		display: flex;
 		flex-direction: row;
@@ -48,13 +45,15 @@ body {
 		align-items: center;
 	}
 }
+
 main {
 	min-height: 67vh;
-	//font-family: "Oswald", serif;
+
 	#error {
 		padding: 10px 0 0 0;
 		color: red;
 	}
+
 	section {
 		h2 {
 			padding: 0 0 0 10px;
@@ -104,6 +103,7 @@ main {
 	flex-direction: column;
 	flex-wrap: wrap;
 }
+
 .flex-body-horiz {
 	display: inline-flex;
 	flex-direction: row;
@@ -114,6 +114,7 @@ main {
 		font-size: 1.5em;
 	}
 }
+
 .flex-body-vert {
 	display: flex;
 	flex-direction: column;
@@ -121,16 +122,17 @@ main {
 	align-items: center;
 }
 
+/* Styling for the generated data */
 .generated-data {
 	width: 100%;
 	height: 90vh;
 	display: none;
-
 	justify-content: center;
 	align-items: center;
 	background-image: url("../media/background.jpg");
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
+
 	.add-font {
 		font-family: "Merriweather", serif;
 	}
@@ -146,9 +148,9 @@ main {
 	&:hover {
 		box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 	}
+
 	.res-card-image {
 		width: 45%;
-		// max-height: 100%;
 		img {
 			max-width: 100%;
 			max-height: 100%;
@@ -169,6 +171,7 @@ main {
 		}
 	}
 }
+
 .flex-search {
 	grid-area: hd3;
 	display: flex;
@@ -178,10 +181,7 @@ main {
 
 input {
 	display: block;
-	// height: 60px;
 	width: 50vw;
-	// background: #22b2da;
-	// color: #f0d43a;
 	font-size: 20px;
 	font-family: "Oswald", sans-serif;
 	border: none;
@@ -198,15 +198,16 @@ button {
 	color: #f0d43a;
 	font-size: 20px;
 	font-weight: bold;
-	// font-family: "Oswald", sans-serif;
 	border: none;
 	box-shadow: 2px 4px 5px #444;
 	border-radius: 10px;
+
 	&:hover {
 		color: #3b4a6b;
 		background: #f0d43a;
 	}
 }
+
 h1 {
 	font-size: 36px;
 	padding: 0;
@@ -239,6 +240,7 @@ h1 {
 			align-items: center;
 		}
 	}
+
 	.card {
 		/* Add shadows to create the "card" effect */
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -252,10 +254,7 @@ h1 {
 	}
 	input {
 		display: block;
-		// height: 60px;
 		width: 15vw;
-		// background: #22b2da;
-		//color: #f0d43a;
 		font-size: 20px;
 		font-family: "Oswald", sans-serif;
 		border: none;
@@ -296,7 +295,6 @@ button:focus {
 
 ::-ms-input-placeholder {
 	/* Microsoft Edge */
-	// color: #f0d43a;
 	font-family: "Oswald", sans-serif;
 	text-align: center;
 }
