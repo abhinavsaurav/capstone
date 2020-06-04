@@ -8,7 +8,6 @@ const weatherUrlKey = "fe37d1548cf04ea093ee4708a37fddb2";
 let pixabayUrlPlusKey =
 	"https://pixabay.com/api/?key=16838225-7a7a834db353d16074c9f4e39";
 let x;
-//let geoData = {};
 let days;
 let country = "";
 let duration = -1;
@@ -96,7 +95,7 @@ function executeTask(e) {
 	// To calculate the no. of days between two dates
 	let Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 	duration = Difference_In_Days;
-
+	document.getElementById("results").style.display = "none";
 	document.getElementById("error").innerHTML = "";
 	document.getElementById("latitude").innerHTML = "";
 	document.getElementById("date").innerHTML = "";
@@ -145,21 +144,19 @@ function executeTask(e) {
 
 	getPlaceData(placename)
 		.then(async (data) => {
-			console.log(data.geonames[0].lng);
-			let jsonData = {
-				longitude: data.geonames[0].lng,
-				latitude: data.geonames[0].lat,
-				country: data.geonames[0].countryName,
-			};
-			country = data.geonames[0].countryName;
-			console.log(country);
-			await postData("http://localhost:3000/addToProjData", jsonData);
-			// document.getElementById("latitude").innerHTML =
-			// 	"Latitude: " + jsonData.latitude;
-			// document.getElementById("date").innerHTML =
-			// 	"Longitude: " + jsonData.longitude;
-			// document.getElementById("country").innerHTML =
-			// 	"Country: " + jsonData.country;
+			try {
+				//console.log(data.geonames[0].lng);
+				let jsonData = {
+					longitude: data.geonames[0].lng,
+					latitude: data.geonames[0].lat,
+					country: data.geonames[0].countryName,
+				};
+				country = data.geonames[0].countryName;
+				console.log(country);
+				await postData("http://localhost:3000/addToProjData", jsonData);
+			} catch (error) {
+				console.log("Results are a miss! Ignore the exception below");
+			}
 		})
 		.then(() => {
 			return reqData();
@@ -272,7 +269,7 @@ const updateUI = async () => {
 			"weather-icon"
 		).innerHTML = `<img src="./images/${receivedData.icon}">`;
 		document.getElementById("duration").innerHTML =
-			"duration: " + duration + " days";
+			"Duration: " + duration + " days";
 		document.getElementById("latitude").innerHTML =
 			"Latitude: " + receivedData.latitude;
 		document.getElementById("date").innerHTML =
@@ -283,10 +280,6 @@ const updateUI = async () => {
 		document.getElementById(
 			"apiDataImage"
 		).innerHTML = `<img src="${receivedData.imageUrl} alt="Data not found" width="200px" height="200px">`;
-
-		// document.getElementById(
-		// 	"error"
-		// ).innerHTML = `<img src="https://pixabay.com/get/53e6dc434351b108f5d08460962931761637dce7564c704c7c2e7ad69e4dc25b_1280.jpg" alt="no image">`;
 
 		document.getElementById("results").style.display = "flex";
 		const sect = document.getElementById("results");

@@ -8,7 +8,11 @@
 			href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap"
 			rel="stylesheet"
 		/>
-		<link rel="stylesheet" href="styles/style.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,300&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- <link rel="stylesheet" href="styles/style.scss" /> -->
 	</head>
 	<body>
 		<head>
@@ -45,38 +49,38 @@
 		</head>
 		<div class="flex-body">
 			<main>
+				<center><div id="error"></div></center>
 				<section class="box">
 					<h2>Checkout Some of Users Favourite destinations and reviews:</h2>
 				</section>
 
 				<section class="card-class box">
 					<div class="card">
-						<img src="./images/deadpool.jpg" alt="Avatar" />
+						<img src="./images/venice.jpg" alt="Venice pic" />
 						<div class="card-container">
 							<p><b>Venice</b></p>
 							<p>John says Great for planning!</p>
 						</div>
 					</div>
 					<div class="card">
-						<img src="./images/deadpool.jpg" alt="Avatar" />
+						<img src="./images/morocco.jpg" alt="Morocco pic" />
 						<div class="card-container">
 							<p><b>Morocco</b></p>
 							<p>Tony says Brilliant! 5 stars</p>
 						</div>
 					</div>
 					<div id="card3" class="card">
-						<img src="./images/deadpool.jpg" alt="Avatar" />
+						<img src="./images/gotham.jpg" alt="Gotham pic" />
 						<div class="card-container">
 							<p class=""><b>Gotham</b></p>
 							<p>Bruce says best decison ever!</p>
 						</div>
 					</div>
 				</section>
-				<div id="error"></div>
 				<section id="results" class="generated-data box">
 					<div id="res-card-container" class="res-class-container box">
 						<div id="apiDataImage" class="res-card-image">
-							<img src="./images/deadpool.jpg" />
+							<img src="./images/deadpool.jpg" alt="dummy pic" />
 						</div>
 						<div id="res-card-content" class="res-card-content">
 							<div class="flex-body-vert">
@@ -84,13 +88,14 @@
 									<div id="temperature">DUMMY</div>
 									<div id="weather-icon">DUMMY</div>
 								</div>
-								<div id="weather-descr">DUMMY</div>
+								<div id="weather-descr" class="add-font">DUMMY</div>
 							</div>
-							<div id="countdown">DUMMY</div>
-							<div id="duration">DUMMY</div>
-							<div id="date">DUMMY</div>
-							<div id="latitude">DUMMY</div>
-							<div id="country">DUMMY</div>
+
+							<div id="duration" class="add-font">DUMMY</div>
+							<div id="date" class="add-font">DUMMY</div>
+							<div id="latitude" class="add-font">DUMMY</div>
+							<div id="country" class="add-font">DUMMY</div>
+							<div id="countdown" class="">DUMMY</div>
 						</div>
 					</div>
 				</section>
@@ -99,53 +104,14 @@
 				<p><strong>&copy; Abhinav Saurav</strong></p>
 			</footer>
 		</div>
-		<!-- <div id="app">
-			<div class="zip extra">
-				<div class="holder zip">
-					<label for="placename">Enter City here</label>
-					<input type="text" id="placename" placeholder="Enter City name" />
-				</div>
-				<div class="holder zip">
-					<label for="travelDate">Enter Date</label>
-					<input
-						type="date"
-						id="travelDate"
-						placeholder="Enter date of travel"
-					/>
-				</div>
-				<br />
-				<div class="holder zip">
-					<label for="feelings">How are you feeling today?</label>
-					<textarea
-						class="myInput"
-						id="feelings"
-						placeholder="Enter your feelings here"
-						rows="3"
-						cols="50"
-					></textarea>
-				</div>
-				<br />
-				<div class="mybtn">
-					<button id="generate" type="submit">Generate</button>
-				</div>
-			</div>
-
-			<div class="holder entry">
-				<div class="title">Most Recent Entry</div>
-
-				<div id="entryHolder"> -->
-		<!-- <div id="error"></div>
-					<div id="date"></div>
-					<div id="temp"></div>
-					<div id="content"></div>
-					<div id="countdown"></div>
-					<div id="weather"></div>
-					<div id="apiDataImage"></div> -->
-		<!-- <img src="./images/a01d.png" /> -->
-		<!-- </div>
-			</div>
-		</div> -->
-
-		<!-- <script src="app.js" type="text/javascript"></script> -->
+		<script>
+			// Check that service workers are supported
+			if ("serviceWorker" in navigator) {
+				// Use the window load event to keep the page load performant
+				window.addEventListener("load", () => {
+					navigator.serviceWorker.register("/service-worker.js");
+				});
+			}
+		</script>
 	</body>
 </html>

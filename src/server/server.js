@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+let projectData = {};
 
 // Require Express to run server and routes
 const express = require("express");
@@ -24,6 +24,10 @@ app.use(express.static("dist"));
 
 const port = 3000;
 const server = app.listen(port, listening);
+
+app.get("/test", async (req, res) => {
+	res.json({ message: "pass!" });
+});
 
 function listening() {
 	console.log("Server Started");
@@ -81,3 +85,5 @@ function addImageData(req, res) {
 	console.log(projectData);
 	res.send({ test: "test" });
 }
+
+module.exports = app;
