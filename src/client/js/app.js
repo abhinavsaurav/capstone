@@ -287,6 +287,8 @@ const updateUI = async () => {
 		// document.getElementById(
 		// 	"error"
 		// ).innerHTML = `<img src="https://pixabay.com/get/53e6dc434351b108f5d08460962931761637dce7564c704c7c2e7ad69e4dc25b_1280.jpg" alt="no image">`;
+
+		document.getElementById("results").style.display = "flex";
 		const sect = document.getElementById("results");
 		sect.scrollIntoView({
 			behavior: "smooth",
